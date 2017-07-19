@@ -1,0 +1,20 @@
+{
+    "name": "nexcess/fiat-utils",
+    "description": "Generates server link data from fiat",
+    "type": "library",
+    "require": {
+	"symfony/yaml": "^3.3",
+        "nicmart/tree": "^0.2.7"
+    },
+    "autoload": {
+	"psr-0": {
+	    "Nexcess": "src/"
+	}
+    },
+    "authors": [
+	{
+	    "name": "Paul Oehler",
+	    "email": "poehler@nexcess.net"
+	}
+    ]
+}

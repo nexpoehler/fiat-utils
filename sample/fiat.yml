@@ -1,0 +1,125 @@
+---
+environment:
+  hooks:
+    pre: |
+      "echo hi"
+    post: |
+      "echo ho"
+  cron:
+    - name: "test"
+      minute: "0"
+      hour: "5,2"
+      job: "echo 'hi' > /dev/null'"
+  software:
+    php:
+      version: "7.1.10"
+      base_packages:
+        - "php-ldap"
+      pecl_modules:
+        - "php-pecl-redis"
+      ini_config:
+        - name: "memory_limit"
+          value: "1024M"
+        - name: "max_execution_time"
+          value: 49
+  hardware:
+    servers:
+      - role: "fs"
+        image: "centos-7-x86_64-1704"
+        flavor: "nex1.small"
+        security_groups:
+          - "ping"
+          - "ssh"
+          - "nfs"
+      - role: "web"
+        image: "centos-7-x86_64-1704"
+        flavor: "nex1.small"
+        quantity: 2
+        security_groups:
+          - "ping"
+          - "ssh"
+          - "backend-web"
+      - role: "fpm"
+        image: "centos-7-x86_64-1704"
+        flavor: "nex1.small"
+        quantity: 2
+        security_groups:
+          - "ping"
+          - "ssh"
+          - "fpm"
+      - role: "db"
+        image: "centos-7-x86_64-1704"
+        flavor: "nex1.small"
+        public_ip: false
+        security_groups:
+          - "ping"
+          - "ssh"
+          - "mysql"
+      - role: "lb-web"
+        image: "centos-7-x86_64-1704"
+        flavor: "nex1.tiny"
+        public_ip: false
+        security_groups:
+          - "ping"
+          - "ssh"
+          - "backend-web"
+          - "haproxy-stats"
+      - role: "lb-fpm"
+        image: "centos-7-x86_64-1704"
+        flavor: "nex1.tiny"
+        public_ip: false
+        security_groups:
+          - "ping"
+          - "ssh"
+          - "fpm"
+          - "haproxy-stats"
+      - role: "lb-redis"
+        image: "centos-7-x86_64-1704"
+        flavor: "nex1.tiny"
+        public_ip: false
+        security_groups:
+          - "ping"
+          - "ssh"
+          - "redis"
+          - "haproxy-stats"
+      - role: "redis"
+        image: "centos-7-x86_64-1704"
+        flavor: "nex1.small"
+        public_ip: false
+        security_groups:
+          - "ping"
+          - "ssh"
+          - "redis"
+      - role: "lb-external"
+        image: "centos-7-x86_64-1704"
+        flavor: "nex1.tiny"
+        public_ip: true
+        security_groups:
+          - "ping"
+          - "ssh"
+          - "http"
+          - "https"
+          - "haproxy-stats"
+      - role: "lb-varnish"
+        image: "centos-7-x86_64-1704"
+        flavor: "nex1.tiny"
+        public_ip: false
+        security_groups:
+          - "ping"
+          - "ssh"
+          - "varnish"
+          - "haproxy-stats"
+      - role: "varnish"
+        image: "centos-7-x86_64-1704"
+        flavor: "nex1.small"
+        public_ip: false
+        security_groups:
+          - "ping"
+          - "ssh"
+          - "varnish"
+deploy:
+  hooks:
+    pre: |
+      "echo deploy_hi"
+    post: |
+      "echo deploy_ho"

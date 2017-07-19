@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Nexcess\FiatUtils;
+
+function usage() {
+    die("usage: fiat2link <fiat.yml>\n");
+}
+
+if(!isset($argv[1]) || !is_file($argv[1])) {
+    usage();
+}
+
+echo FiatUtils::fiat2LinkData($argv[1]);
